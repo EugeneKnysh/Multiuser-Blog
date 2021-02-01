@@ -18,7 +18,7 @@ public class ArticleDTO {
     private User author;
 
     @NotBlank(message = "Title can`t be empty.")
-    @Size(min = 1, max = 100, message = "Name is more than 100 characters.")
+    @Size(min = 1, max = 50, message = "Name is more than 100 characters.")
     private String title;
 
     @NotBlank(message = "Section can`t be empty.")
@@ -26,11 +26,11 @@ public class ArticleDTO {
     private String section;
 
     @NotBlank(message = "Anons can`t be empty.")
-    @Size(min = 1, max = 100, message = "Anons is more than 100 characters.")
+    @Size(min = 1, max = 255, message = "Anons is more than 100 characters.")
     private String anons;
 
     @NotBlank(message = "Text can`t be empty.")
-    @Size(min = 1, max = 255, message = "Text is more than 255 characters.")
+    @Size(min = 1)
     private String fullText;
 
     private ZonedDateTime createdDate;

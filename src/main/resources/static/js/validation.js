@@ -18,6 +18,32 @@ export function validNotEmpty(element) {
     return true;
 }
 
+export function validMaxCharacter(element, max) {
+    if (validNotEmpty(element)) {
+        if (max != null) {
+            let regExp = new RegExp('^\\p{Lu}.{1,' + max + '}$', 'mus');
+            console.log(regExp);
+            if (element.val().match(regExp)) {
+                setValidElement(element);
+                return true;
+            } else {
+                setInvalidElement(element, "This field must begin with a capital letter" +
+                    " and not exceed " + max + " characters.");
+                return false;
+            }
+        } else {
+            if (element.val().match(new RegExp('\\p{Lu}.+', 'us'))) {
+                setValidElement(element);
+                return true;
+            } else {
+                setInvalidElement(element, "This field must begin with a capital letter.");
+                return false;
+            }
+        }
+    }
+    return false;
+}
+
 export function validName(element) {
     if (validNotEmpty(element)) {
         if (element.val().match(/^(\p{Lu}\p{Ll}{0,24})$/u)) {
