@@ -11,10 +11,11 @@ export function clickCheckboxAgree(checkBox, button) {
 }
 
 export function validNotEmpty(element) {
-    if (element.val() === "") {
+    if (element.val() === "" || element.val() == null) {
         setInvalidElement(element, "This field can`t be empty.");
         return false;
     }
+    setValidElement(element);
     return true;
 }
 
@@ -22,7 +23,6 @@ export function validMaxCharacter(element, max) {
     if (validNotEmpty(element)) {
         if (max != null) {
             let regExp = new RegExp('^\\p{Lu}.{1,' + max + '}$', 'mus');
-            console.log(regExp);
             if (element.val().match(regExp)) {
                 setValidElement(element);
                 return true;

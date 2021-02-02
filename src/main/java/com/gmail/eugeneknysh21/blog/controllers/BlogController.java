@@ -33,6 +33,7 @@ public class BlogController {
     }
 
     @GetMapping("/article/all")
+    @PreAuthorize("hasAuthority('article:read')")
     public PageDTO<ArticleDTO> getAllArticleByAuthor(@RequestParam(required = false) Long authorId,
                                                      @RequestParam(required = false) Integer page,
                                                      @RequestParam(required = false) Integer size,
@@ -96,6 +97,11 @@ public class BlogController {
         return userService.checkAliasIdentity(alias);
     }
 
+    @DeleteMapping("/article")
+    @PreAuthorize("hasAuthority('article:read')")
+    public boolean deleteArticle(@RequestParam Long id) {
+        return articleService.remove(id);
+    }
 
 
 

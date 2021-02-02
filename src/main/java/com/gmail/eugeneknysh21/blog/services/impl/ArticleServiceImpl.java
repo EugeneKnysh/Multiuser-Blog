@@ -99,8 +99,14 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public boolean remove(Long id) {
-        articleRepository.deleteById(id);
-        return true;
+        Long userId = userService.getPrincipal().getId();
+        Article article = articleRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("The article to delete was not found."));
+        if (article.getAuthor().getId().equals(userId)) {
+            articleRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -47,6 +47,12 @@ public class PageController {
         return "login";
     }
 
+    @GetMapping("/articles/my")
+    @PreAuthorize("hasAuthority('article:read')")
+    public String myArticles() {
+        return "my-articles";
+    }
+
 //    @GetMapping("/search")
 //    public String search() {
 //        return "search";
