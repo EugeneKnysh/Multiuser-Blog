@@ -18,6 +18,8 @@ public interface ArticleService {
 
     PageDTO<ArticleDTO> getAllBySection(Integer page, Integer size, Sort.Direction direction, String sortField, String section);
 
+    PageDTO<ArticleDTO> getAllByAuthorId(Long authorId, Integer page, Integer size, Sort.Direction direction, String sortField);
+
     Long update(ArticleDTO articleDTO);
 
     boolean remove(Long id);

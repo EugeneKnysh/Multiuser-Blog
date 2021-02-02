@@ -15,7 +15,7 @@ import java.time.ZonedDateTime;
 public class ArticleDTO {
     private Long id;
 
-    private User author;
+    private UserDTO author;
 
     @NotBlank(message = "Title can`t be empty.")
     @Size(min = 1, max = 50, message = "Name is more than 100 characters.")

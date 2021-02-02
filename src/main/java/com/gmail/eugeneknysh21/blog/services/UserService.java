@@ -14,6 +14,8 @@ public interface UserService {
 
     Collection<UserDTO> getAll();
 
+    UserDTO getUserDTO(User user);
+
     Long update(UserDTO userDTO);
 
     boolean remove(Long id);
@@ -29,4 +31,6 @@ public interface UserService {
     boolean checkAliasIdentity(String alias);
 
     UserDTO getPrincipal();
+
+    User getPrincipalUser();
 }

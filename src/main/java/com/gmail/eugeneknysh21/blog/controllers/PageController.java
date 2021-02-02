@@ -32,13 +32,12 @@ public class PageController {
     }
 
     @GetMapping("/article/add")
-    @PreAuthorize("hasAuthority('article:create')")
+    @PreAuthorize("hasAuthority('article:read')")
     public String articleAdd() {
         return "article-add";
     }
 
     @GetMapping("/articles/section")
-    @PreAuthorize("hasAuthority('article:read')")
     public String articlesSection() {
         return "articles-section";
     }

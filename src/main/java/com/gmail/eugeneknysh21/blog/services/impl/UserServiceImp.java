@@ -1,12 +1,12 @@
 package com.gmail.eugeneknysh21.blog.services.impl;
 
 import com.gmail.eugeneknysh21.blog.dto.UserDTO;
-import com.gmail.eugeneknysh21.blog.services.VerificationTokenService;
 import com.gmail.eugeneknysh21.blog.models.User;
 import com.gmail.eugeneknysh21.blog.models.VerificationToken;
 import com.gmail.eugeneknysh21.blog.repository.UserRepository;
 import com.gmail.eugeneknysh21.blog.services.MailSenderService;
 import com.gmail.eugeneknysh21.blog.services.UserService;
+import com.gmail.eugeneknysh21.blog.services.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -68,7 +68,8 @@ public class UserServiceImp implements UserService {
                 .collect(Collectors.toList());
     }
 
-    private UserDTO getUserDTO(User user) {
+    @Override
+    public UserDTO getUserDTO(User user) {
         return new UserDTO(
                 user.getId(),
                 user.getEmail(),
@@ -154,7 +155,22 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserDTO getPrincipal() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return getUserByEmail(userDetails.getUsername());
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            return getUserByEmail(userDetails.getUsername());
+        }
+        throw new NoSuchElementException("User is not logged in.");
+    }
+
+    @Override
+    public User getPrincipalUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            return userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() ->
+                    new NoSuchElementException("User doesn`t exist."));
+        }
+        throw new NoSuchElementException("User is not logged in.");
     }
 }

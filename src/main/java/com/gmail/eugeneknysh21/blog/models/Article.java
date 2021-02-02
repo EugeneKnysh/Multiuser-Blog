@@ -17,7 +17,7 @@ public class Article {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn()
+    @JoinColumn(nullable = false, updatable = false)
     private User author;
 
     private String title;

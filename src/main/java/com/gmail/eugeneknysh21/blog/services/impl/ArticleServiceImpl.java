@@ -1,11 +1,12 @@
 package com.gmail.eugeneknysh21.blog.services.impl;
 
 import com.gmail.eugeneknysh21.blog.dto.ArticleDTO;
+import com.gmail.eugeneknysh21.blog.dto.PageDTO;
 import com.gmail.eugeneknysh21.blog.models.Article;
 import com.gmail.eugeneknysh21.blog.repository.ArticleRepository;
 import com.gmail.eugeneknysh21.blog.services.ArticleService;
+import com.gmail.eugeneknysh21.blog.services.UserService;
 import com.gmail.eugeneknysh21.blog.utility.PageableCreator;
-import com.gmail.eugeneknysh21.blog.dto.PageDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -20,10 +21,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
+    private final UserService userService;
 
     @Override
     public Long create(ArticleDTO articleDTO) {
-        Article article = new Article(articleDTO.getAuthor(),
+
+        Article article = new Article(userService.getPrincipalUser(),
                 articleDTO.getTitle(),
                 articleDTO.getSection(),
                 articleDTO.getAnons(),
@@ -59,10 +62,19 @@ public class ArticleServiceImpl implements ArticleService {
         return PageDTO.convertToPageDto(articlePage, this::getArticleDTO);
     }
 
+    @Override
+    public PageDTO<ArticleDTO> getAllByAuthorId(Long authorId, Integer page, Integer size, Sort.Direction direction, String sortField) {
+        if (authorId == null) {
+            authorId = userService.getPrincipal().getId();
+        }
+        Page<Article> articlePage = articleRepository.findByAuthorId(PageableCreator.getPageable(page, size, direction, sortField), authorId);
+        return PageDTO.convertToPageDto(articlePage, this::getArticleDTO);
+    }
+
     private ArticleDTO getArticleDTO(Article article) {
         return new ArticleDTO(
                 article.getId(),
-                article.getAuthor(),
+                userService.getUserDTO(article.getAuthor()),
                 article.getTitle(),
                 article.getSection(),
                 article.getAnons(),
