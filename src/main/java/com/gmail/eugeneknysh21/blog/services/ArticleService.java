@@ -20,7 +20,7 @@ public interface ArticleService {
 
     PageDTO<ArticleDTO> getAllByAuthorId(Long authorId, Integer page, Integer size, Sort.Direction direction, String sortField);
 
-    Long update(ArticleDTO articleDTO);
+    boolean update(ArticleDTO articleDTO);
 
     boolean remove(Long id);
 

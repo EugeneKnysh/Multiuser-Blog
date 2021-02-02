@@ -103,6 +103,12 @@ public class BlogController {
         return articleService.remove(id);
     }
 
+    @PostMapping("/article/edit")
+    @PreAuthorize("hasAuthority('article:read')")
+    public boolean editArticle(@RequestBody ArticleDTO articleDTO) {
+        return articleService.update(articleDTO);
+    }
+
 
 
 

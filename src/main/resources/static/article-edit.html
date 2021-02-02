@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Edit article</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <link href="/css/blog.css" rel="stylesheet">
+    <link href="/css/toastr.min.css" rel="stylesheet">
+    <script src="/js/jquery-3.5.1.js"></script>
+    <script src="/js/sweetalert.min.js"></script>
+    <script src="/js/toastr.js"></script>
+    <script src="/js/insertBlocks.js"></script>
+    <script type="module" src="/js/edit-article.js"></script>
+</head>
+<body>
+
+<div class="loader"></div>
+
+<div class="animate-bottom">
+    <div class="container">
+        <div id="header-block"></div>
+    </div>
+
+    <div role="main" class="container">
+        <div class="row justify-content-center mt-3 mb-3">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="text-muted" for="title">Title</label>
+                    <input autofocus class="form-control" id="title" type="text">
+                    <div class="invalid-feedback" id="title_err"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="text-muted" for="anons">Anons</label>
+                    <input class="form-control" id="anons" type="text">
+                    <div class="invalid-feedback" id="anons_err"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="text-muted" for="section">Section</label>
+                    <select class="form-control" id="section">
+                        <option>World</option>
+                        <option>U.S.</option>
+                        <option>Technology</option>
+                        <option>Design</option>
+                        <option>Culture</option>
+                        <option>Business</option>
+                        <option>Politics</option>
+                        <option>Opinion</option>
+                        <option>Science</option>
+                        <option>Health</option>
+                        <option>Style</option>
+                        <option>Travel</option>
+                    </select>
+                    <div class="invalid-feedback" id="section_err"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="text-muted" for="full-text">Text</label>
+                    <textarea class="form-control" id="full-text" rows="3"></textarea>
+                    <div class="invalid-feedback" id="full-text_err"></div>
+                </div>
+
+                <button class="btn btn-primary" type="button" id="add-article">
+                    Save Article
+                    <span class="spinner-border spinner-border-sm" role="status" id="spinner" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="footer-block"></div>
+</div>
+</body>
+</html>

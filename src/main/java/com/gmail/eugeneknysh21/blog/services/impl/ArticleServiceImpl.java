@@ -85,16 +85,19 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Long update(ArticleDTO articleDTO) {
+    public boolean update(ArticleDTO articleDTO) {
+        Long userId = userService.getPrincipal().getId();
         Article article = articleRepository.findById(articleDTO.getId()).orElseThrow(() ->
                 new NoSuchElementException("Article can`t be updated. Article not found."));
-        article.setTitle(articleDTO.getTitle());
-        article.setAnons(articleDTO.getAnons());
-        article.setFullText(articleDTO.getFullText());
-        article.setSection(articleDTO.getSection());
-
-        article = articleRepository.save(article);
-        return article.getId();
+        if (article.getAuthor().getId().equals(userId)) {
+            article.setTitle(articleDTO.getTitle());
+            article.setAnons(articleDTO.getAnons());
+            article.setFullText(articleDTO.getFullText());
+            article.setSection(articleDTO.getSection());
+            articleRepository.save(article);
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -53,6 +53,12 @@ public class PageController {
         return "my-articles";
     }
 
+    @GetMapping("/article/edit")
+    @PreAuthorize("hasAuthority('article:read')")
+    public String editArticle() {
+        return "article-edit";
+    }
+
 //    @GetMapping("/search")
 //    public String search() {
 //        return "search";
