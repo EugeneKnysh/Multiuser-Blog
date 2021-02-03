@@ -224,7 +224,8 @@ h1, h2, h3, h4, h5, h6 {
 
 
 /*Spinner*/
-#spinner {
+#spinner,
+#spinner_pass {
     display: none;
 }
 
@@ -406,4 +407,15 @@ h1, h2, h3, h4, h5, h6 {
     border-top: 1px solid #eeeeee;
     text-align: end;
     padding-bottom: 0.4rem;
+}
+
+
+
+
+/*Edit user*/
+.container-box {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #adadad;
+    border-radius: 10px;
 }

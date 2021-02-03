@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+    <link href="/css/blog.css" rel="stylesheet">
+    <link href="/css/toastr.min.css" rel="stylesheet">
+    <script src="/js/sweetalert.min.js"></script>
+    <script src="/js/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="/js/toastr.js"></script>
+    <script src="/js/insertBlocks.js"></script>
+    <script type="module" src="/js/my-profile.js"></script>
+
+
+</head>
+<body>
+
+<div class="loader"></div>
+
+<div class="animate-bottom">
+    <div class="container">
+        <div id="header-block"></div>
+    </div>
+
+    <div role="main" class="container">
+        <!-- Modal -->
+        <div class="modal fade" id="modalWindow" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Enter your password</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group col">
+                            <label class="text-muted" for="password">Password</label>
+                            <input class="form-control" id="old_password" type="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="check_pass">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row justify-content-center mt-3 mb-3">
+            <div class="col-md-6">
+                <div class="container-box cred">
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label class="text-muted" for="name">Name</label>
+                            <input autofocus class="form-control" id="name" type="text" placeholder="Name" disabled>
+                            <div class="invalid-feedback" id="name_err"></div>
+                        </div>
+
+                        <div class="form-group col">
+                            <label class="text-muted" for="lastname">Surname</label>
+                            <input class="form-control" id="lastname" type="text" placeholder="Surname" disabled>
+                            <div class="invalid-feedback" id="lastname_err"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="text-muted" for="alias">Alias</label>
+                        <input class="form-control" id="alias" type="text" placeholder="Alias" disabled>
+                        <div class="invalid-feedback" id="alias_err"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="text-muted" for="email">Email</label>
+                        <input class="form-control" id="email" type="email" placeholder="example@example.com" disabled>
+                        <div class="invalid-feedback" id="email_err"></div>
+                    </div>
+
+                    <button class="btn btn-outline-primary btn-sm mr-2" type="button" id="edit">Edit</button>
+                    <button class="btn btn-outline-primary btn-sm" type="button" id="update" disabled>
+                        Update
+                        <span class="spinner-border spinner-border-sm" role="status" id="spinner" aria-hidden="true"></span>
+                    </button>
+
+                </div>
+
+                <div class="container-box pass">
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label class="text-muted" for="password">New password</label>
+                            <div class="password">
+                                <input class="form-control" id="password" type="password" placeholder="New password" disabled>
+                                <div class="invalid-feedback" id="password_err"></div>
+                                <div class="password-control" id="password_view">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" id="eye" viewBox="0 0 16 16">
+                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-slash-fill" id="eye_slash" viewBox="0 0 16 16">
+                                        <path d="M10.79 12.912l-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.027 7.027 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.088z"/>
+                                        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708l-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6l-12-12 .708-.708 12 12-.708.707z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col">
+                            <label class="text-muted" for="password_confirm">New password confirm</label>
+                            <div class="password">
+                                <input class="form-control" id="password_confirm" type="password" placeholder="New password confirm" disabled>
+                                <div class="invalid-feedback" id="password_confirm_err"></div>
+                                <div class="password-control" id="password_confirm_view">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" id="eye_c" viewBox="0 0 16 16">
+                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-slash-fill" id="eye_slash_c" viewBox="0 0 16 16">
+                                        <path d="M10.79 12.912l-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.027 7.027 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.088z"/>
+                                        <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708l-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6l-12-12 .708-.708 12 12-.708.707z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-outline-primary btn-sm mr-2" type="button" id="edit_pass" data-toggle="modal" data-target="#modalWindow">Edit</button>
+                    <button class="btn btn-outline-primary btn-sm" type="button" id="update_pass" disabled>
+                        Update
+                        <span class="spinner-border spinner-border-sm" role="status" id="spinner_pass" aria-hidden="true"></span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-block"></div>
+</div>
+</body>
+</html>

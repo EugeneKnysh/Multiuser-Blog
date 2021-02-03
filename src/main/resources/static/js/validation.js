@@ -105,7 +105,7 @@ export function validAlias(element) {
 function checkAliasIdentity(alias) {
     return $.ajax({
         type: "Get",
-        url: "/checkAlias?alias=" + alias,
+        url: "/checkAlias?alias=" + encodeURI(alias),
         dataType: "json",
         error: function (jqXHR, exception) {
             toastr.error("Check Alias failed! \n" + handleError(jqXHR, exception));

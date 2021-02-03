@@ -59,6 +59,12 @@ public class PageController {
         return "article-edit";
     }
 
+    @GetMapping("/profile")
+    @PreAuthorize("hasAuthority('article:read')")
+    public String profile() {
+        return "my-profile";
+    }
+
 //    @GetMapping("/search")
 //    public String search() {
 //        return "search";

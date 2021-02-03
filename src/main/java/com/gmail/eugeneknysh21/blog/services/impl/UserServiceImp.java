@@ -1,6 +1,7 @@
 package com.gmail.eugeneknysh21.blog.services.impl;
 
 import com.gmail.eugeneknysh21.blog.dto.UserDTO;
+import com.gmail.eugeneknysh21.blog.dto.UserDataDTO;
 import com.gmail.eugeneknysh21.blog.models.User;
 import com.gmail.eugeneknysh21.blog.models.VerificationToken;
 import com.gmail.eugeneknysh21.blog.repository.UserRepository;
@@ -8,6 +9,7 @@ import com.gmail.eugeneknysh21.blog.services.MailSenderService;
 import com.gmail.eugeneknysh21.blog.services.UserService;
 import com.gmail.eugeneknysh21.blog.services.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +21,7 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class UserServiceImp implements UserService {
@@ -73,7 +76,7 @@ public class UserServiceImp implements UserService {
         return new UserDTO(
                 user.getId(),
                 user.getEmail(),
-                user.getPassword(),
+                "",
                 user.getFirstName(),
                 user.getLastName(),
                 user.getAlias(),
@@ -84,16 +87,19 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public Long update(UserDTO userDTO) {
-        User user = userRepository.findById(userDTO.getId()).orElseThrow(() ->
+    public boolean update(UserDataDTO userDataDTO) {
+        Long principalId = getPrincipal().getId();
+        User user = userRepository.findById(userDataDTO.getId()).orElseThrow(() ->
                 new NoSuchElementException("User data can`t be updated. User doesn`t exist."));
-        user.setPassword(userDTO.getPassword());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setAlias(userDTO.getAlias());
-
-        user = userRepository.save(user);
-        return user.getId();
+        if (user.getId().equals(principalId)) {
+            user.setFirstName(userDataDTO.getFirstName());
+            user.setLastName(userDataDTO.getLastName());
+            user.setAlias(userDataDTO.getAlias());
+            user.setEmail(userDataDTO.getEmail());
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -172,5 +178,23 @@ public class UserServiceImp implements UserService {
                     new NoSuchElementException("User doesn`t exist."));
         }
         throw new NoSuchElementException("User is not logged in.");
+    }
+
+    @Override
+    public boolean checkPassword(String password) {
+        return passwordEncoder.matches(password, getPrincipalUser().getPassword());
+    }
+
+    @Override
+    public boolean updatePassword(Long id, String password) {
+        Long principalId = getPrincipal().getId();
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("Password can`t be updated. User doesn`t exist."));
+        if (user.getId().equals(principalId)) {
+            user.setPassword(passwordEncoder.encode(password));
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 }

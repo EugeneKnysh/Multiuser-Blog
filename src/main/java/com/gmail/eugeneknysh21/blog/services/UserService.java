@@ -1,6 +1,7 @@
 package com.gmail.eugeneknysh21.blog.services;
 
 import com.gmail.eugeneknysh21.blog.dto.UserDTO;
+import com.gmail.eugeneknysh21.blog.dto.UserDataDTO;
 import com.gmail.eugeneknysh21.blog.models.User;
 
 import java.util.Collection;
@@ -16,7 +17,7 @@ public interface UserService {
 
     UserDTO getUserDTO(User user);
 
-    Long update(UserDTO userDTO);
+    boolean update(UserDataDTO userDataDTO);
 
     boolean remove(Long id);
 
@@ -33,4 +34,8 @@ public interface UserService {
     UserDTO getPrincipal();
 
     User getPrincipalUser();
+
+    boolean checkPassword(String password);
+
+    boolean updatePassword(Long id, String password);
 }

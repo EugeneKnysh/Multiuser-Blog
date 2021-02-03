@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import javax.security.auth.login.LoginException;
 import javax.sql.DataSource;
 
 @Configuration

@@ -3,6 +3,7 @@ package com.gmail.eugeneknysh21.blog.controllers;
 import com.gmail.eugeneknysh21.blog.dto.ArticleDTO;
 import com.gmail.eugeneknysh21.blog.dto.PageDTO;
 import com.gmail.eugeneknysh21.blog.dto.UserDTO;
+import com.gmail.eugeneknysh21.blog.dto.UserDataDTO;
 import com.gmail.eugeneknysh21.blog.services.ArticleService;
 import com.gmail.eugeneknysh21.blog.services.UserService;
 import com.gmail.eugeneknysh21.blog.utility.RoleFinder;
@@ -15,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Log4j2
@@ -62,12 +64,25 @@ public class BlogController {
         return articleService.getAllBySection(page, size, direction, sortField, section);
     }
 
+    @DeleteMapping("/article")
+    @PreAuthorize("hasAuthority('article:read')")
+    public boolean deleteArticle(@RequestParam Long id) {
+        return articleService.remove(id);
+    }
+
+    @PostMapping("/article/edit")
+    @PreAuthorize("hasAuthority('article:read')")
+    public boolean editArticle(@RequestBody ArticleDTO articleDTO) {
+        return articleService.update(articleDTO);
+    }
+
     @GetMapping("/role")
     public boolean hasRole(@RequestParam String role) {
         return RoleFinder.hasRoleUser(role);
     }
 
     @GetMapping("/principal")
+    @PreAuthorize("hasAuthority('article:read')")
     public UserDTO getPrincipal() {
         return userService.getPrincipal();
     }
@@ -97,19 +112,23 @@ public class BlogController {
         return userService.checkAliasIdentity(alias);
     }
 
-    @DeleteMapping("/article")
+    @PutMapping("/user/edit")
     @PreAuthorize("hasAuthority('article:read')")
-    public boolean deleteArticle(@RequestParam Long id) {
-        return articleService.remove(id);
+    public boolean editUserData(@RequestBody @Valid UserDataDTO userDataDTO) {
+        return userService.update(userDataDTO);
     }
 
-    @PostMapping("/article/edit")
+    @PostMapping("/checkPassword")
     @PreAuthorize("hasAuthority('article:read')")
-    public boolean editArticle(@RequestBody ArticleDTO articleDTO) {
-        return articleService.update(articleDTO);
+    public boolean checkPassword(@RequestBody String password) {
+        return userService.checkPassword(password);
     }
 
-
+    @PutMapping("/user/edit/password")
+    @PreAuthorize("hasAuthority('article:read')")
+    public boolean editPassword(@RequestBody Map<String, String> body) {
+        return userService.updatePassword(Long.parseLong(body.get("id")), body.get("password"));
+    }
 
 
 
