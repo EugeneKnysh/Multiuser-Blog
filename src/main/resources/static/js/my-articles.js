@@ -30,7 +30,7 @@ function loadArticle() {
                         .append(`<h2 class="blog-post-title">${item.title}</h2>`)
                         .append(`<p class="blog-post-meta">${getDate(item.createdDate)} ${getTime(item.createdDate)}</p>`)
                         .append(`<p>${item.anons}</p>`)
-                        .append(`<a href="/article?id=${item.id}">Continue reading...</a>`)
+                        .append(`<a href="/post?id=${item.id}">Continue reading...</a>`)
                         .append(`<button class="delete-button" type="button" id="delete_${item.id}">Delete</button>`)
                         .append(`<a href="/article/edit?id=${item.id}">Edit</a>`);
 

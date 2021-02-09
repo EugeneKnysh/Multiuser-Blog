@@ -65,6 +65,11 @@ public class PageController {
         return "my-profile";
     }
 
+    @GetMapping("/post")
+    public String article() {
+        return "article";
+    }
+
 //    @GetMapping("/search")
 //    public String search() {
 //        return "search";

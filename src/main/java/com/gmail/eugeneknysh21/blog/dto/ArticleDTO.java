@@ -1,6 +1,5 @@
 package com.gmail.eugeneknysh21.blog.dto;
 
-import com.gmail.eugeneknysh21.blog.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
