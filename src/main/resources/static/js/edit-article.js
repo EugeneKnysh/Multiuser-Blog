@@ -15,10 +15,11 @@ $(document).ready(function () {
 
 let id = (new URL(document.location)).searchParams.get("id");
 
+let editorInstance;
+let editor;
 let title = $("#title");
 let anons = $("#anons");
 let section = $("#section");
-let text = $("#full-text");
 let button = $("#add-article");
 let validation = {
     status: false,
@@ -31,12 +32,21 @@ let validation = {
     }
 }
 
-loadArticle(id)
+ClassicEditor
+    .create($("#editor")[0])
+    .then(newEditor => {
+        editor = newEditor;
+        editorInstance = $(".ck-editor__editable")[0].ckeditorInstance;
+        return loadArticle(id);
+    })
     .then(function (article) {
         title.val(article.title);
         anons.val(article.anons);
         section.val(article.section);
-        text.val(article.fullText);
+        editorInstance.setData(article.fullText);
+    })
+    .catch(error => {
+        console.error(error);
     });
 
 title.blur(function () {
@@ -51,25 +61,30 @@ section.blur(function () {
     validNotEmpty($(this));
 });
 
-text.blur(function () {
-    validMaxCharacter($(this));
-});
-
 button.click(function () {
+    let data = editor.getData();
     $(".form-control").removeClass("is-valid", "is-invalid");
     validation.count = 0;
 
     validation.setStatus(validMaxCharacter(title, 50));
     validation.setStatus(validMaxCharacter(anons, 255));
     validation.setStatus(validNotEmpty(section));
-    validation.setStatus(validMaxCharacter(text));
+    if (data === "" || data == null) {
+        $("#editor_err")
+            .text("This field can`t be empty.")
+            .css("display", "block");
+    } else {
+        validation.setStatus(true)
+        $("#editor_err")
+            .css("display", "none");
+    }
 
     if (validation.status) {
-        editArticle();
+        editArticle(data);
     }
 });
 
-function editArticle() {
+function editArticle(data) {
     $("#spinner").css('display', 'inline-block');
 
     let articleDTO = {
@@ -77,7 +92,7 @@ function editArticle() {
         title: title.val(),
         anons: anons.val(),
         section: section.val(),
-        fullText: text.val()
+        fullText: data
     }
 
     $.ajax({

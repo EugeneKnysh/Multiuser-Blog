@@ -13,10 +13,11 @@ $(document).ready(function () {
     });
 });
 
+let editorInstance;
+let editor;
 let title = $("#title");
 let anons = $("#anons");
 let section = $("#section");
-let text = $("#full-text");
 let button = $("#add-article");
 let validation = {
     status: false,
@@ -28,6 +29,16 @@ let validation = {
         }
     }
 }
+
+ClassicEditor
+    .create($("#editor")[0])
+    .then(newEditor => {
+        editor = newEditor;
+        editorInstance = $(".ck-editor__editable")[0].ckeditorInstance;
+    })
+    .catch(error => {
+        console.error(error);
+    });
 
 title.blur(function () {
     validMaxCharacter($(this), 50);
@@ -41,32 +52,37 @@ section.blur(function () {
     validNotEmpty($(this));
 });
 
-text.blur(function () {
-    validMaxCharacter($(this));
-});
-
 button.click(function () {
+    let data = editor.getData();
     $(".form-control").removeClass("is-valid", "is-invalid");
     validation.count = 0;
 
     validation.setStatus(validMaxCharacter(title, 50));
     validation.setStatus(validMaxCharacter(anons, 255));
     validation.setStatus(validNotEmpty(section));
-    validation.setStatus(validMaxCharacter(text));
+    if (data === "" || data == null) {
+        $("#editor_err")
+            .text("This field can`t be empty.")
+            .css("display", "block");
+    } else {
+        validation.setStatus(true)
+        $("#editor_err")
+            .css("display", "none");
+    }
 
     if (validation.status) {
-        addArticle();
+        addArticle(data);
     }
 });
 
-function addArticle() {
+function addArticle(data) {
     $("#spinner").css('display', 'inline-block');
 
     let articleDTO = {
         title: title.val(),
         anons: anons.val(),
         section: section.val(),
-        fullText: text.val()
+        fullText: data
     }
 
     $.ajax({
@@ -75,11 +91,11 @@ function addArticle() {
         data: JSON.stringify(articleDTO),
         contentType: "application/json",
         success: function (result) {
-            console.log(result)
             $("#spinner").css('display', 'none');
             if ((result > 0) && (result !== null)) {
                 toastr.success("Article added.");
                 $('.form-control').val('');
+                editorInstance.setData('');
             } else {
                 toastr.error("Something happened. The article has not been added.");
             }
