@@ -15,12 +15,12 @@ $(document).ready(function () {
 
 function loadTopArticle() {
     return $.ajax({
-        type: "GET",
+        method: "GET",
         url: "/getArticlePages?page=0&size=3&sortField=views",
         dataType: "json",
         success: function (result) {
             let article = result.content;
-            if ($.isArray(article) && article != null) {
+            if ($.isArray(article)) {
                 $("#top-article-title").text(article[0].title);
                 $("#top-article-anons").text(article[0].anons);
                 $("#top-article-link").attr("href", "/post?id=" + article[0].id);
@@ -46,23 +46,22 @@ function loadTopArticle() {
 
 function loadNewArticle() {
     return $.ajax({
-        type: "GET",
+        method: "GET",
         url: "/getArticlePages?page=0&size=10&sortField=createdDate",
         dataType: "json",
         success: function (result) {
             let articles = result.content;
 
             if ($.isArray(articles) && articles != null) {
-                for (let i = 0; i < articles.length; i++) {
-
+                $.each(articles, function (index, item) {
                     let elem = $("<div class='blog-post'>")
-                        .append('<h2 class="blog-post-title">' + articles[i].title + '</h2>')
-                        .append(`<p class="blog-post-meta">${getDate(articles[i].createdDate)} ${getTime(articles[i].createdDate)} by <a href="/author?id=${articles[i].author.id}">${articles[i].author.alias}</a></p>`)
-                        .append('<p>' + articles[i].anons + '</p>')
-                        .append('<a href="/post?id=' + articles[i].id + '">Continue reading...</a>');
+                        .append(`<h2 class="blog-post-title">${item.title}</h2>`)
+                        .append(`<p class="blog-post-meta">${getDate(item.createdDate)} ${getTime(item.createdDate)} by <a href="/author?id=${item.author.id}">${item.author.alias}</a></p>`)
+                        .append(`<p>${item.anons}</p>`)
+                        .append(`<a href="/post?id=${item.id}">Continue reading...</a>`);
 
                     $(".blog-pagination").before(elem);
-                }
+                });
             }
         },
         error: function (jqXHR) {
