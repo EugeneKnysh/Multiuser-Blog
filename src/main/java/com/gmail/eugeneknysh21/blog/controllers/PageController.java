@@ -70,6 +70,11 @@ public class PageController {
         return "article";
     }
 
+    @GetMapping("/author")
+    public String author() {
+        return "authors-articles";
+    }
+
 //    @GetMapping("/search")
 //    public String search() {
 //        return "search";

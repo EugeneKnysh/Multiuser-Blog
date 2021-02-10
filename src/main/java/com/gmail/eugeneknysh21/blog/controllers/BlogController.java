@@ -35,7 +35,6 @@ public class BlogController {
     }
 
     @GetMapping("/article/all")
-    @PreAuthorize("hasAuthority('article:read')")
     public PageDTO<ArticleDTO> getAllArticleByAuthor(@RequestParam(required = false) Long authorId,
                                                      @RequestParam(required = false) Integer page,
                                                      @RequestParam(required = false) Integer size,
