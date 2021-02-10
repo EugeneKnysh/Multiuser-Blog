@@ -16,7 +16,7 @@ let articleId = (new URL(document.location)).searchParams.get("id");
 
 function loadArticle() {
     return $.ajax({
-        type: "GET",
+        method: "GET",
         url: "/article?id=" + articleId,
         dataType: "json",
         success: function (article) {

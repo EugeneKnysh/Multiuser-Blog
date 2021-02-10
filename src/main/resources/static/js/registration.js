@@ -95,7 +95,7 @@ function register() {
     }
 
     $.ajax({
-        type: "POST",
+        method: "POST",
         url: "/registration",
         data: JSON.stringify(userDTO),
         contentType: "application/json",

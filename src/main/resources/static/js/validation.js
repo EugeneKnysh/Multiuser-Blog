@@ -104,7 +104,7 @@ export function validAlias(element) {
 
 function checkAliasIdentity(alias) {
     return $.ajax({
-        type: "Get",
+        method: "Get",
         url: "/checkAlias?alias=" + encodeURI(alias),
         dataType: "json",
         error: function (jqXHR, exception) {
@@ -139,8 +139,8 @@ export function validEmail(element) {
 
 function checkEmailIdentity(email) {
     return $.ajax({
-        type: "Get",
-        url: "/checkEmail?email=" + email,
+        method: "Get",
+        url: "/checkEmail?email=" + encodeURI(email),
         dataType: "json",
         error: function (jqXHR, exception) {
             toastr.error("Check Email failed! \n" + handleError(jqXHR, exception));

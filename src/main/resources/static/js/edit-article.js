@@ -96,7 +96,7 @@ function editArticle(data) {
     }
 
     $.ajax({
-        method: "POST",
+        method: "PUT",
         url: "/article/edit",
         data: JSON.stringify(articleDTO),
         contentType: "application/json",

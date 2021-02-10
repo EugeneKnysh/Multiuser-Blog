@@ -94,7 +94,7 @@ function burgerMenu(element) {
 
 function getUser() {
     return $.ajax({
-        type: "Get",
+        method: "GET",
         url: "/principal",
         dataType: "json",
         error: function (jqXHR) {

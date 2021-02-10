@@ -10,7 +10,7 @@ $(document).ready(function () {
         }),
         loadFooter(),
         loadNavBar(),
-        loadArticle("/article/sectionPages?page=0&size=20&sortField=createdDate&section=" + section)
+        loadArticle("/article/sectionPages?page=0&size=20&sortField=createdDate&section=" + encodeURI(section))
     ]).then(function () {
         showPage();
     });

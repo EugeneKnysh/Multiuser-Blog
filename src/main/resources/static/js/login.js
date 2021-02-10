@@ -15,8 +15,8 @@ if (params.has('token')) {
     let token = params.get('token');
 
     $.ajax({
-        type: "GET",
-        url: "/registrationConfirm?token=" + token,
+        method: "GET",
+        url: "/registrationConfirm?token=" + encodeURI(token),
         dataType: "json",
         success: function (result) {
             if (result === true) {
@@ -40,8 +40,8 @@ if (params.has('token')) {
 
 function resendConfirmLink(token) {
     $.ajax({
-        type: "GET",
-        url: "/resendConfirmLink?token=" + token,
+        method: "GET",
+        url: "/resendConfirmLink?token=" + encodeURI(token),
         dataType: "json",
         success: function (result) {
             if (result === true) {

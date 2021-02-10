@@ -86,7 +86,7 @@ function addArticle(data) {
     }
 
     $.ajax({
-        type: "POST",
+        method: "POST",
         url: "/article/add",
         data: JSON.stringify(articleDTO),
         contentType: "application/json",
