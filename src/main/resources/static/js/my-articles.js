@@ -1,6 +1,6 @@
-import {getTime, getDate} from "./parseDate.js";
 import {showPage} from "./loader.js";
 import handleError from "./errorHandler.js";
+import {loadMyArticles} from "./load-articles.js";
 
 $(document).ready(function () {
     Promise.allSettled([
@@ -9,40 +9,12 @@ $(document).ready(function () {
         }),
         loadFooter(),
         loadNavBar(),
-        loadArticle()
+        loadMyArticles("/article/all?page=0&size=10&sortField=createdDate")
     ]).then(function () {
         showPage();
         deleteArticle();
     });
 });
-
-function loadArticle() {
-    return $.ajax({
-        method: "GET",
-        url: "/article/all?page=0&size=10&sortField=createdDate",
-        dataType: "json",
-        success: function (result) {
-            let articles = result.content;
-
-            if ($.isArray(articles)) {
-                $.each(articles, function (index, item) {
-                    let elem = $("<div class='col-md-8 blog-post'>")
-                        .append(`<h2 class="blog-post-title">${item.title}</h2>`)
-                        .append(`<p class="blog-post-meta">${getDate(item.createdDate)} ${getTime(item.createdDate)}</p>`)
-                        .append(`<p>${item.anons}</p>`)
-                        .append(`<a href="/post?id=${item.id}">Continue reading...</a>`)
-                        .append(`<button class="delete-button" type="button" id="delete_${item.id}">Delete</button>`)
-                        .append(`<a href="/article/edit?id=${item.id}">Edit</a>`);
-
-                    $("#mainContent").append(elem);
-                });
-            }
-        },
-        error: function (jqXHR) {
-            console.log(jqXHR.status);
-        }
-    });
-}
 
 function deleteArticle() {
     $(".delete-button").click(function (event) {

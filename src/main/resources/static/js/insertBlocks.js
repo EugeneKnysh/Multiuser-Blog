@@ -64,6 +64,7 @@ function burgerMenu(element) {
 
     button.click(function (e) {
         e.preventDefault();
+        console.log("Button click.");
         toggleMenu();
     });
     links.click(function () {
@@ -85,10 +86,12 @@ function burgerMenu(element) {
 
     getUser().then(function (principal) {
         username.text("Hello, " + principal.firstName);
-    })
+    });
 
     function toggleMenu() {
+        console.log("Toggle menu.");
         element.toggleClass("burger-menu_active");
+        console.log("Toggle Class.");
     }
 }
 

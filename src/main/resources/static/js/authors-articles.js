@@ -1,4 +1,4 @@
-import {loadArticle} from "./articles-section.js";
+import {loadArticle} from "./load-articles.js";
 import {showPage} from "./loader.js";
 
 let authorId = (new URL(document.location)).searchParams.get("id");

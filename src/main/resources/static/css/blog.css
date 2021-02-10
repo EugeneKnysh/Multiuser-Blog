@@ -419,3 +419,39 @@ h1, h2, h3, h4, h5, h6 {
     border: 1px solid #adadad;
     border-radius: 10px;
 }
+
+
+
+/*List article*/
+.article {
+    position: relative;
+    padding: 2rem;
+    border: 1px solid #dedede;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #dcdcdc;
+    transition: all 0.2s ease;
+}
+
+.article:hover {
+    background-color: #f5f5f5;
+    box-shadow: 0 0 10px #d5d5d5;
+}
+
+.div-button {
+    position: absolute;
+    right: 2rem;
+    bottom: 1.7rem;
+    z-index: 10;
+}
+
+.delete-button {
+    margin: 0.2rem;
+    width: 5rem;
+    padding: 0.2rem;
+}
+
+.edit-button {
+    margin: 0.2rem;
+    width: 5rem;
+    padding: 0.2rem;
+}
