@@ -1,7 +1,13 @@
-import {loadArticle} from "./load-articles.js";
+import {loadArticles} from "./load-articles.js";
 import {showPage} from "./loader.js";
 
-let section = (new URL(document.location)).searchParams.get("page");
+let url = new URL(document.location);
+let searchParams = url.searchParams;
+let p = 0;
+if (searchParams.has("p")) {
+    p = searchParams.get("p") - 1;
+}
+let section = searchParams.get("page");
 
 $(document).ready(function () {
     Promise.allSettled([
@@ -10,7 +16,12 @@ $(document).ready(function () {
         }),
         loadFooter(),
         loadNavBar(),
-        loadArticle("/article/sectionPages?page=0&size=20&sortField=createdDate&section=" + encodeURI(section))
+        loadArticles(`/article/sectionPages?page=${p}&size=10&sortField=createdDate&section=${encodeURI(section)}`)
+            .then(function (result) {
+                if (result.totalPages > 0) {
+                    createPageButton(p, result.totalPages, url);
+                }
+            })
     ]).then(function () {
         showPage();
     });

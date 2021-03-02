@@ -29,6 +29,11 @@ public class CustomExceptionHandler {
         return ResponseEntity.badRequest().body(new ResponseDTO(4002, exception.getMessage()));
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ResponseDTO> handleIllegalArgumentException(IllegalArgumentException exception) {
+        return ResponseEntity.badRequest().body(new ResponseDTO(4002, exception.getMessage()));
+    }
+
     @ExceptionHandler(MailException.class)
     public ResponseEntity<ResponseDTO> handleMailException() {
         return ResponseEntity.badRequest().body(new ResponseDTO(4003, "Error sending message."));

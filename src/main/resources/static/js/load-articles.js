@@ -1,6 +1,6 @@
 import {getDate, getTime} from "./parseDate.js";
 
-export function loadArticle(url) {
+export function loadArticles(url) {
     return $.ajax({
         method: "GET",
         url: url,

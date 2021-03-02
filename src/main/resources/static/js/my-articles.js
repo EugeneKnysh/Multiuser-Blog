@@ -2,6 +2,13 @@ import {showPage} from "./loader.js";
 import handleError from "./errorHandler.js";
 import {loadMyArticles} from "./load-articles.js";
 
+let url = new URL(document.location);
+let searchParams = url.searchParams;
+let p = 0;
+if (searchParams.has("p")) {
+    p = searchParams.get("p") - 1;
+}
+
 $(document).ready(function () {
     Promise.allSettled([
         loadHeader().then(function () {
@@ -9,7 +16,12 @@ $(document).ready(function () {
         }),
         loadFooter(),
         loadNavBar(),
-        loadMyArticles("/article/all?page=0&size=10&sortField=createdDate")
+        loadMyArticles(`/article/all?page=${p}&size=10&sortField=createdDate`)
+            .then(function (result) {
+                if (result.totalPages > 0) {
+                    createPageButton(p, result.totalPages, url);
+                }
+            })
     ]).then(function () {
         showPage();
         deleteArticle();
