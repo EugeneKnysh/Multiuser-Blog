@@ -132,7 +132,7 @@ h1, h2, h3, h4, h5, h6 {
  * Footer
  */
 .blog-footer {
-    padding: 2.5rem 0;
+    padding: 1rem 0;
     color: #999;
     text-align: center;
     background-color: #f9f9f9;
@@ -208,6 +208,9 @@ h1, h2, h3, h4, h5, h6 {
     animation-name: animatebottom;
     animation-duration: 0.5s;
     display: none;
+    flex-direction: column;
+
+    min-height: 100vh;
 }
 
 @-webkit-keyframes animatebottom {
@@ -467,4 +470,56 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0.2rem;
     width: 5rem;
     padding: 0.2rem;
+}
+
+
+
+/*Content Block*/
+.flex-box {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+}
+
+.max-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+/*Error Container*/
+.error-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.error-text {
+    position: absolute;
+    top: 38vh;
+    padding: 0 2vh 0;
+
+    color: #333333;
+}
+
+.error-container h1 {
+    font-size: 10vh;
+    font-family: "Segoe Print", sans-serif;
+    font-weight: bold;
+}
+
+.error-container h2 {
+    text-align: center;
+    font-size: 4vh;
+    font-family: "Segoe Print", sans-serif;
+}
+
+.error-container img {
+    height: 60vh;
+    border: 1px solid #dedede;
+    border-radius: 20px;
+    box-shadow: 0 0 5px #dcdcdc;
 }
