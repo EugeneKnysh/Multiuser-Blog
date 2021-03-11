@@ -4,11 +4,13 @@ import com.gmail.eugeneknysh21.blog.models.enums.Status;
 import com.gmail.eugeneknysh21.blog.models.enums.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Data
+@ToString(exclude = {"articles"})
 @Entity
 @NoArgsConstructor
 public class User {

@@ -15,6 +15,8 @@ import org.springframework.mail.MailParseException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -46,6 +48,15 @@ public class BlogController {
     @GetMapping("/article")
     public ArticleDTO getArticle(@RequestParam Long id) {
         return articleService.getArticleById(id);
+    }
+
+    @GetMapping("/increment")
+    public void incrementView(@RequestParam Long id, @CookieValue(name = "UUID", required = false) Cookie cookieUuid, HttpServletResponse response) {
+        if (cookieUuid == null) {
+            response.addCookie(new Cookie("UUID", articleService.incViewsById(id, null)));
+        } else {
+            articleService.incViewsById(id, cookieUuid.getValue());
+        }
     }
 
     @PostMapping("/article/add")

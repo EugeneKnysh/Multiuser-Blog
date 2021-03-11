@@ -12,7 +12,9 @@ export function loadArticles(url) {
                 $.each(articles, function (index, item) {
                     let elem = $("<div class='col-md-5 blog-post article m-1'>")
                         .append(`<h2 class="blog-post-title">${item.title}</h2>`)
-                        .append(`<p class="blog-post-meta">${getDate(item.createdDate)} ${getTime(item.createdDate)} by <a href="/author?id=${item.author.id}">${item.author.alias}</a></p>`)
+                        .append($("<div class='meta-inform'>")
+                            .append(`<p class="blog-post-meta">${getDate(item.createdDate)} ${getTime(item.createdDate)} by <a href="/author?id=${item.author.id}">${item.author.alias}</a></p>`)
+                            .append(`<div class="views"><img src="/img/eye.svg" alt="views"> ${item.views}</div>`))
                         .append(`<p>${item.anons}</p>`)
                         .append(`<a href="/post?id=${item.id}">Continue reading...</a>`);
 
@@ -36,15 +38,16 @@ export function loadMyArticles(url) {
 
             if ($.isArray(articles)) {
                 $.each(articles, function (index, item) {
-                    let buttons = $("<div class='div-button'>")
-                        .append(`<a class="btn btn-primary edit-button" href="/article/edit?id=${item.id}">Edit</a>`)
-                        .append(`<button class="btn btn-outline-secondary delete-button" type="button" id="delete_${item.id}">Delete</button>`);
                     let elem = $("<div class='col-md-8 blog-post article m-1'>")
                         .append(`<h2 class="blog-post-title">${item.title}</h2>`)
-                        .append(`<p class="blog-post-meta">${getDate(item.createdDate)} ${getTime(item.createdDate)}</p>`)
+                        .append($("<div class='meta-inform'>")
+                            .append(`<p class="blog-post-meta">${getDate(item.createdDate)} ${getTime(item.createdDate)}</p>`)
+                            .append(`<div class="views"><img src="/img/eye.svg" alt="views"> ${item.views}</div>`))
                         .append(`<p>${item.anons}</p>`)
                         .append(`<a class="stretched-link" href="/post?id=${item.id}">Continue reading...</a>`)
-                        .append(buttons);
+                        .append($("<div class='div-button'>")
+                            .append(`<a class="btn btn-primary edit-button" href="/article/edit?id=${item.id}">Edit</a>`)
+                            .append(`<button class="btn btn-outline-secondary delete-button" type="button" id="delete_${item.id}">Delete</button>`));
 
                     $("#mainContent").append(elem);
                 });
@@ -68,7 +71,9 @@ export function loadNewArticle(url) {
                 $.each(articles, function (index, item) {
                     let elem = $("<div class='blog-post article m-2'>")
                         .append(`<h2 class="blog-post-title">${item.title}</h2>`)
-                        .append(`<p class="blog-post-meta">${getDate(item.createdDate)} ${getTime(item.createdDate)} by <a href="/author?id=${item.author.id}">${item.author.alias}</a></p>`)
+                        .append($("<div class='meta-inform'>")
+                            .append(`<p class="blog-post-meta">${getDate(item.createdDate)} ${getTime(item.createdDate)} by <a href="/author?id=${item.author.id}">${item.author.alias}</a></p>`)
+                            .append(`<div class="views"><img src="/img/eye.svg" alt="views"> ${item.views}</div>`))
                         .append(`<p>${item.anons}</p>`)
                         .append(`<a href="/post?id=${item.id}">Continue reading...</a>`);
 
@@ -97,12 +102,14 @@ export function loadTopArticle(url) {
                 $("#second-article-section").text(article[1].section);
                 $("#second-article-title").text(article[1].title);
                 $("#second-article-date").text(getDate(article[1].createdDate));
+                $("#second-article-views").text(article[1].views);
                 $("#second-article-anons").text(article[1].anons);
                 $("#second-article-link").attr("href", "/post?id=" + article[1].id);
 
                 $("#third-article-section").text(article[2].section);
                 $("#third-article-title").text(article[2].title);
                 $("#third-article-date").text(getDate(article[2].createdDate));
+                $("#third-article-views").text(article[2].views);
                 $("#third-article-anons").text(article[2].anons);
                 $("#third-article-link").attr("href", "/post?id=" + article[2].id);
             }

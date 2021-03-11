@@ -24,5 +24,5 @@ public interface ArticleService {
 
     boolean remove(Long id);
 
-    void incViewsById(Long id);
+    String incViewsById(Long id, String uuid);
 }

@@ -9,6 +9,7 @@ $(document).ready(function () {
         loadArticle(),
     ]).then(function () {
         showPage();
+        incrementView();
     });
 });
 
@@ -23,6 +24,7 @@ function loadArticle() {
             if (article != null) {
                 $("#title").text(article.title);
                 $("#meta").html(`${getDate(article.createdDate)} ${getTime(article.createdDate)} by <a href="/author?id=${article.author.id}">${article.author.alias}</a>`);
+                $("#views").text(article.views);
                 $("#text").html(article.fullText);
             }
         },
@@ -30,4 +32,8 @@ function loadArticle() {
             console.log(jqXHR.status);
         }
     });
+}
+
+function incrementView() {
+    return $.get("/increment?id=" + articleId);
 }

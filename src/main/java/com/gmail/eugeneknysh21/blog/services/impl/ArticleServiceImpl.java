@@ -3,11 +3,14 @@ package com.gmail.eugeneknysh21.blog.services.impl;
 import com.gmail.eugeneknysh21.blog.dto.ArticleDTO;
 import com.gmail.eugeneknysh21.blog.dto.PageDTO;
 import com.gmail.eugeneknysh21.blog.models.Article;
+import com.gmail.eugeneknysh21.blog.models.Reader;
 import com.gmail.eugeneknysh21.blog.repository.ArticleRepository;
+import com.gmail.eugeneknysh21.blog.repository.ReaderRepository;
 import com.gmail.eugeneknysh21.blog.services.ArticleService;
 import com.gmail.eugeneknysh21.blog.services.UserService;
 import com.gmail.eugeneknysh21.blog.utility.PageableCreator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,12 +18,15 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
+    private final ReaderRepository readerRepository;
     private final UserService userService;
 
     @Override
@@ -113,11 +119,22 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void incViewsById(Long id) {
+    public String incViewsById(Long id, String uuid) {
         Article article = articleRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("Article doesn`t exist."));
-        int views = article.getViews() + 1;
+        int views = article.getViews();
+
+        if (uuid == null) {
+            uuid = UUID.randomUUID().toString();
+            readerRepository.save(new Reader(uuid, article.getId()));
+            views++;
+        } else if (readerRepository.findByUuidAndArticleId(uuid, article.getId()).isEmpty()) {
+            readerRepository.save(new Reader(uuid, article.getId()));
+            views++;
+        }
+
         article.setViews(views);
         articleRepository.save(article);
+        return uuid;
     }
 }
