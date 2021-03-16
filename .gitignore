@@ -49,7 +49,7 @@ build/
 *.rar
 
 # My files
-/src/main/resources/application.properties
 /src/main/resources/static/test-page.html
 /src/main/resources/static/template.html
 /src/main/resources/static/js/test-page.js
+/src/main/resources/application-dev.properties
