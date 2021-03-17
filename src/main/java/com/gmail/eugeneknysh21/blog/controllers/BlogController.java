@@ -60,7 +60,7 @@ public class BlogController {
     }
 
     @PostMapping("/article/add")
-    @PreAuthorize("hasAuthority('article:read')")
+    @PreAuthorize("hasAuthority('OP_CREATE')")
     public Long addArticle(@Valid @RequestBody ArticleDTO articleDTO) {
         return articleService.create(articleDTO);
     }
@@ -75,13 +75,13 @@ public class BlogController {
     }
 
     @DeleteMapping("/article")
-    @PreAuthorize("hasAuthority('article:read')")
+    @PreAuthorize("hasAuthority('OP_CREATE')")
     public boolean deleteArticle(@RequestParam Long id) {
         return articleService.remove(id);
     }
 
     @PutMapping("/article/edit")
-    @PreAuthorize("hasAuthority('article:read')")
+    @PreAuthorize("hasAuthority('OP_CREATE')")
     public boolean editArticle(@RequestBody ArticleDTO articleDTO) {
         return articleService.update(articleDTO);
     }
@@ -92,7 +92,7 @@ public class BlogController {
     }
 
     @GetMapping("/principal")
-    @PreAuthorize("hasAuthority('article:read')")
+    @PreAuthorize("hasAuthority('OP_CREATE')")
     public UserDTO getPrincipal() {
         return userService.getPrincipal();
     }
@@ -123,46 +123,20 @@ public class BlogController {
     }
 
     @PutMapping("/user/edit")
-    @PreAuthorize("hasAuthority('article:read')")
+    @PreAuthorize("hasAuthority('OP_CREATE')")
     public boolean editUserData(@RequestBody @Valid UserDataDTO userDataDTO) {
         return userService.update(userDataDTO);
     }
 
     @PostMapping("/checkPassword")
-    @PreAuthorize("hasAuthority('article:read')")
+    @PreAuthorize("hasAuthority('OP_CREATE')")
     public boolean checkPassword(@RequestBody String password) {
         return userService.checkPassword(password);
     }
 
     @PutMapping("/user/edit/password")
-    @PreAuthorize("hasAuthority('article:read')")
+    @PreAuthorize("hasAuthority('OP_CREATE')")
     public boolean editPassword(@RequestBody Map<String, String> body) {
         return userService.updatePassword(Long.parseLong(body.get("id")), body.get("password"));
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    @GetMapping("/NoSuchElement")
-    public void noSuchElement() {
-        throw new NoSuchElementException("Test Message in NoSuchElementException.");
-    }
-
-    @GetMapping("/mail")
-    public void mailTest() {
-        throw new MailParseException("Test Message in MailParseException.");
-    }
-
-    @GetMapping("/noHandle")
-    public void noHandle() throws NotFoundException {
-        throw new NotFoundException("Test Message in NotFoundException.");
     }
 }

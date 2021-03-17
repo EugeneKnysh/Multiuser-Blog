@@ -32,7 +32,7 @@ public class PageController {
     }
 
     @GetMapping("/article/add")
-    @PreAuthorize("hasAuthority('article:read')")
+    @PreAuthorize("hasAuthority('OP_CREATE')")
     public String articleAdd() {
         return "article-add";
     }
@@ -48,19 +48,19 @@ public class PageController {
     }
 
     @GetMapping("/articles/my")
-    @PreAuthorize("hasAuthority('article:read')")
+    @PreAuthorize("hasAuthority('OP_CREATE')")
     public String myArticles() {
         return "my-articles";
     }
 
     @GetMapping("/article/edit")
-    @PreAuthorize("hasAuthority('article:read')")
+    @PreAuthorize("hasAuthority('OP_CREATE')")
     public String editArticle() {
         return "article-edit";
     }
 
     @GetMapping("/profile")
-    @PreAuthorize("hasAuthority('article:read')")
+    @PreAuthorize("hasAuthority('OP_CREATE')")
     public String profile() {
         return "my-profile";
     }
@@ -74,21 +74,4 @@ public class PageController {
     public String author() {
         return "authors-articles";
     }
-
-//    @GetMapping("/search")
-//    public String search() {
-//        return "search";
-//    }
-
-//    @GetMapping("/article/{id}")
-//    public String articleGet(@PathVariable("id") Long id, Model model) {
-//        model.addAttribute("articleId", id);
-//        return "articleGet";
-//    }
-
-//    @GetMapping("/article/{id}/edit")
-//    public String articleEdit(@PathVariable("id") Long articleId, Model model) {
-//        model.addAttribute("articleId", articleId);
-//        return "articleEdit";
-//    }
 }
