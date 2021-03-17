@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
@@ -34,6 +35,7 @@ public class UserServiceImp implements UserService {
     private String hostUrl;
 
     @Override
+    @Transactional
     public Long registerUser(UserDTO userDTO) {
         User user = new User(
                 userDTO.getEmail(),
@@ -87,6 +89,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean update(UserDataDTO userDataDTO) {
         Long principalId = getPrincipal().getId();
         User user = userRepository.findById(userDataDTO.getId()).orElseThrow(() ->
@@ -103,17 +106,20 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean remove(Long id) {
         userRepository.deleteById(id);
         return true;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean checkEmailIdentity(String email) {
         return userRepository.findByEmail(email).isEmpty();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean checkAliasIdentity(String alias) {
         return userRepository.findByAlias(alias).isEmpty();
     }
@@ -135,6 +141,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean confirmRegistration(String token) {
         VerificationToken verificationToken = verificationTokenService.getByToken(token);
         if (verificationTokenService.isExpired(verificationToken)) {
@@ -148,6 +155,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean resendConfirmLink(String token) {
         VerificationToken verificationToken = verificationTokenService.getByToken(token);
         if (verificationTokenService.isExpired(verificationToken)) {
@@ -160,6 +168,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDTO getPrincipal() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
@@ -181,11 +190,13 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean checkPassword(String password) {
         return passwordEncoder.matches(password, getPrincipalUser().getPassword());
     }
 
     @Override
+    @Transactional
     public boolean updatePassword(Long id, String password) {
         Long principalId = getPrincipal().getId();
         User user = userRepository.findById(id).orElseThrow(() ->
