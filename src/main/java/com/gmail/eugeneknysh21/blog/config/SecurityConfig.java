@@ -42,23 +42,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                    .antMatchers("/").permitAll()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/")
-                .failureUrl("/login?error=true")
+                    .formLogin()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/", false)
+                    .failureUrl("/login?error=true")
                 .and()
-                .rememberMe().key(secretKey)
-                .userDetailsService(userDetailsService)
-                .tokenRepository(persistentTokenRepository())
+                    .rememberMe().key(secretKey)
+                    .userDetailsService(userDetailsService)
+                    .tokenRepository(persistentTokenRepository())
                 .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/");
+                    .logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .deleteCookies("JSESSIONID")
+                    .logoutSuccessUrl("/");
     }
 
     @Override
