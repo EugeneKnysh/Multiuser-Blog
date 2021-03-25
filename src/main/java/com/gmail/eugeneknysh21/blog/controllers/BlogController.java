@@ -50,7 +50,9 @@ public class BlogController {
     @GetMapping("/increment")
     public void incrementView(@RequestParam Long id, @CookieValue(name = "UUID", required = false) Cookie cookieUuid, HttpServletResponse response) {
         if (cookieUuid == null) {
-            response.addCookie(new Cookie("UUID", articleService.incViewsById(id, null)));
+            cookieUuid = new Cookie("UUID", articleService.incViewsById(id, null));
+            cookieUuid.setHttpOnly(true);
+            response.addCookie(cookieUuid);
         } else {
             articleService.incViewsById(id, cookieUuid.getValue());
         }
