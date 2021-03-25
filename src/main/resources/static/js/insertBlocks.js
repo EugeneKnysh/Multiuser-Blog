@@ -10,7 +10,7 @@ function loadHeader() {
         }
     }).then(function () {
         return $.ajax({
-            url: "/role?role=ROLE_ANONYMOUS",
+            url: "/isAnonymous",
             dataType: "json",
             success: function (result) {
                 if (result) {
@@ -75,7 +75,7 @@ function burgerMenu(element) {
     logout.click(function (e) {
         e.preventDefault();
         $.ajax({
-            type: "Post",
+            method: "POST",
             url: "/logout",
             success: function () {
                 location.href = "/";

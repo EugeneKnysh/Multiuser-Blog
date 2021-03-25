@@ -5,13 +5,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.stream.Collectors;
 
-public class RoleFinder {
-    public static boolean hasRoleUser(String role) {
+public class RoleCheck {
+    public static boolean hasRolePrincipal(String role) {
         return SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()).contains(role);
+    }
+
+    public static boolean isAnonymous() {
+        return SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList()).contains("ROLE_ANONYMOUS");
     }
 }

@@ -6,12 +6,10 @@ import com.gmail.eugeneknysh21.blog.dto.UserDTO;
 import com.gmail.eugeneknysh21.blog.dto.UserDataDTO;
 import com.gmail.eugeneknysh21.blog.services.ArticleService;
 import com.gmail.eugeneknysh21.blog.services.UserService;
-import com.gmail.eugeneknysh21.blog.utility.RoleFinder;
-import javassist.NotFoundException;
+import com.gmail.eugeneknysh21.blog.utility.RoleCheck;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Sort;
-import org.springframework.mail.MailParseException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +17,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @Log4j2
 @RestController
@@ -88,7 +85,12 @@ public class BlogController {
 
     @GetMapping("/role")
     public boolean hasRole(@RequestParam String role) {
-        return RoleFinder.hasRoleUser(role);
+        return RoleCheck.hasRolePrincipal(role);
+    }
+
+    @GetMapping("/isAnonymous")
+    public boolean isAnonymous() {
+        return RoleCheck.isAnonymous();
     }
 
     @GetMapping("/principal")

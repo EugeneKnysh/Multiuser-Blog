@@ -1,6 +1,6 @@
 package com.gmail.eugeneknysh21.blog.controllers;
 
-import com.gmail.eugeneknysh21.blog.utility.RoleFinder;
+import com.gmail.eugeneknysh21.blog.utility.RoleCheck;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ public class PageController {
 
     @GetMapping("/login")
     public String login() {
-        if (!RoleFinder.hasRoleUser("ROLE_ANONYMOUS")) {
+        if (!RoleCheck.isAnonymous()) {
             return "index";
         }
         return "login";
@@ -25,7 +25,7 @@ public class PageController {
 
     @GetMapping("/registration")
     public String registration() {
-        if (!RoleFinder.hasRoleUser("ROLE_ANONYMOUS")) {
+        if (!RoleCheck.isAnonymous()) {
             return "index";
         }
         return "registration";
