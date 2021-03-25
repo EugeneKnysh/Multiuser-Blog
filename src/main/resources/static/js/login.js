@@ -8,9 +8,30 @@ viewPassword($("#password"), $("#password_view"), $("#eye"), $("#eye_slash"));
 
 let params = (new URL(document.location)).searchParams;
 
-if (params.get('error') === "true") {
-    toastr.error("Invalid password and login combination.");
-}
+$("#btn_login").click(function () {
+    let authRequestDTO = {
+        email: $("#username").val(),
+        password: $("#password").val()
+    }
+
+    $.ajax({
+        method: "POST",
+        url: "/login",
+        data: JSON.stringify(authRequestDTO),
+        contentType: "application/json",
+        success: function () {
+            location.href="/";
+        },
+        error: function (jqXHR, exception) {
+            if (jqXHR.status === 401) {
+                toastr.error(jqXHR.responseText);
+            } else {
+                swal("Login failed!", handleError(jqXHR, exception), "error");
+            }
+        }
+    });
+});
+
 if (params.has('token')) {
     let token = params.get('token');
 
