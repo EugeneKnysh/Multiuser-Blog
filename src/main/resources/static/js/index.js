@@ -14,9 +14,12 @@ $(document).ready(function () {
         loadFooter(),
         loadNavBar(),
         loadTopArticle("/getArticlePages?page=0&size=3&sortField=views"),
-        loadNewArticle(`/getArticlePages?page=${p}&size=10&sortField=createdDate`).then(function (result) {
-            createPageButton(p, result.totalPages, url);
-        })
+        loadNewArticle(`/getArticlePages?page=${p}&size=10&sortField=createdDate`)
+            .then(function (result) {
+                if (result.totalPages > 0) {
+                    createPageButton(p, result.totalPages, url);
+                }
+            })
     ]).then(function () {
         showPage();
     });
