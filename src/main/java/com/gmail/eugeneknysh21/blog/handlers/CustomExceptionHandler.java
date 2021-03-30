@@ -1,4 +1,4 @@
-package com.gmail.eugeneknysh21.blog.exceptions.handlers;
+package com.gmail.eugeneknysh21.blog.handlers;
 
 import com.gmail.eugeneknysh21.blog.dto.ResponseDTO;
 import org.springframework.http.HttpStatus;
