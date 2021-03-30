@@ -2,6 +2,9 @@ import {showPage} from "./loader.js";
 import {loadNewArticle, loadTopArticle} from "./load-articles.js";
 
 let url = new URL(document.location);
+if (url.href.match("#")) {
+    document.location.href = url.href.split("#")[0];
+}
 let searchParams = url.searchParams;
 let p = 0;
 if (searchParams.has("p")) {
