@@ -40,4 +40,6 @@ public class UserDTO {
     private Role role;
     private Status status;
     private boolean enabled;
+    private String oauth2id;
+    private String oauth2Service;
 }

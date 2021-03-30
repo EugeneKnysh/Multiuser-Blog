@@ -48,6 +48,11 @@ public class User {
     @Column(nullable = false)
     private boolean enabled;
 
+    @Column(unique = true)
+    private String oauth2id;
+
+    private String oauth2Service;
+
     public User(String email, String password, String firstName, String lastName, String alias) {
         this.email = email;
         this.password = password;

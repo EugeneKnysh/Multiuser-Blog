@@ -84,7 +84,9 @@ public class UserServiceImp implements UserService {
                 user.getAlias(),
                 user.getRole(),
                 user.getStatus(),
-                user.isEnabled()
+                user.isEnabled(),
+                user.getOauth2id(),
+                user.getOauth2Service()
         );
     }
 
