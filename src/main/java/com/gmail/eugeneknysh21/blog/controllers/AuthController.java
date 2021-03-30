@@ -1,6 +1,7 @@
 package com.gmail.eugeneknysh21.blog.controllers;
 
 import com.gmail.eugeneknysh21.blog.dto.AuthenticationRequestDTO;
+import com.gmail.eugeneknysh21.blog.providers.JwtTokenProvider;
 import com.gmail.eugeneknysh21.blog.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -18,12 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequestDTO requestDTO, HttpServletResponse response) {
         try {
             String token = authService.authenticate(requestDTO);
-            response.addCookie(authService.getAccessTokenCookie(token));
+            response.addCookie(jwtTokenProvider.createAccessTokenCookie(token));
             return ResponseEntity.ok().build();
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Invalid email/password combination.", HttpStatus.UNAUTHORIZED);

@@ -27,6 +27,8 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
     private String secretKey;
     @Value("${jwt.expiration}")
     private long validityInMilliseconds;
+    @Value("${jwt.cookies.expiration}")
+    private int cookieExpiration;
 
     public JwtTokenProviderImpl(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -84,5 +86,14 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
             }
         }
         return token;
+    }
+
+    @Override
+    public Cookie createAccessTokenCookie(String token) {
+        Cookie accessToken = new Cookie("access_token", token);
+        accessToken.setPath("/");
+        accessToken.setHttpOnly(true);
+        accessToken.setMaxAge(cookieExpiration/1000);
+        return accessToken;
     }
 }

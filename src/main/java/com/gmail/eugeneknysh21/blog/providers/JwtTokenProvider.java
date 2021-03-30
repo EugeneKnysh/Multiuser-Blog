@@ -3,6 +3,7 @@ package com.gmail.eugeneknysh21.blog.providers;
 import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 public interface JwtTokenProvider {
     String createToken(String username);
@@ -13,5 +14,7 @@ public interface JwtTokenProvider {
 
     String getUsername(String token);
 
-    String resolveAccessToken(Cookie[] cookies);
+    String resolveAccessToken(HttpServletRequest request);
+
+    Cookie createAccessTokenCookie(String token);
 }
