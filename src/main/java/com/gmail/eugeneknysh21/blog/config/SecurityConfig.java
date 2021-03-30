@@ -1,5 +1,7 @@
 package com.gmail.eugeneknysh21.blog.config;
 
+import com.gmail.eugeneknysh21.blog.services.impl.CustomOAuth2UserService;
+import com.gmail.eugeneknysh21.blog.services.impl.CustomOidcUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -20,6 +26,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtConfig jwtConfig;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+    private final AuthorizationRequestRepository<OAuth2AuthorizationRequest> customRepository;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOidcUserService customOidcUserService;
 //    private final UserDetailsService userDetailsService;
 //    private final DataSource dataSource;
 
@@ -57,7 +68,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .deleteCookies("access_token")
                     .logoutSuccessUrl("/")
                 .and()
-                    .apply(jwtConfig);
+                    .apply(jwtConfig)
+                .and()
+                    .oauth2Login()
+                    .loginPage("/login")
+                    .successHandler(authenticationSuccessHandler)
+                    .failureHandler(authenticationFailureHandler)
+                    .authorizationEndpoint()
+                        .authorizationRequestRepository(customRepository)
+                .and()
+                    .userInfoEndpoint()
+                        .oidcUserService(customOidcUserService)
+                        .userService(customOAuth2UserService);
     }
 
 //    @Override
