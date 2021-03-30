@@ -33,21 +33,32 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Transactional
     public User buildUserDTO(OAuth2User oAuth2User, OAuth2UserRequest userRequest) {
         String email = oAuth2User.getAttribute("email");
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
         User user = userRepository.findByEmail(email).orElseGet(() -> {
             Random random = new Random(System.currentTimeMillis());
+            String firstName = "";
+            String lastName = "";
+
+            if (registrationId.equals("facebook")) {
+                firstName = oAuth2User.getAttribute("first_name");
+                lastName = oAuth2User.getAttribute("last_name");
+            } else if (registrationId.equals("google")) {
+                firstName = oAuth2User.getAttribute("given_name");
+                lastName = oAuth2User.getAttribute("family_name");
+            }
 
             User newUser = new User(
                     email,
                     "",
-                    oAuth2User.getAttribute("given_name"),
-                    oAuth2User.getAttribute("family_name"),
+                    firstName,
+                    lastName,
                     "User" + random.nextInt(999999));
             newUser.setEnabled(true);
             return newUser;
         });
 
         user.setOauth2id(oAuth2User.getName());
-        user.setOauth2Service(userRequest.getClientRegistration().getRegistrationId());
+        user.setOauth2Service(registrationId);
 
         return userRepository.save(user);
     }

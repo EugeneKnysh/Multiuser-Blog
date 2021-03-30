@@ -539,3 +539,57 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 20px;
     box-shadow: 0 0 5px #dcdcdc;
 }
+
+/*Social buttons*/
+
+.facebook {
+    --f-text-color: #1877F2;
+    --f-back-color: #eeeeee;
+    --f-time: 0.2s;
+    border-color: var(--f-text-color);
+    color: var(--f-text-color);
+    transition: color, var(--f-time);
+}
+
+.f_circle {
+    fill: var(--f-text-color);
+    transition: color, var(--f-time);
+}
+
+.f_char {
+    fill: var(--f-back-color);
+    transition: color, var(--f-time);
+}
+
+.facebook:hover {
+    --f-text-color: #eeeeee;
+    --f-back-color: #1877F2;
+    background-color: var(--f-back-color);
+    border-color: var(--f-text-color);
+}
+
+.google {
+    --g-text-color: #DC4E41;
+    --g-back-color: #eeeeee;
+    --g-time: 0.2s;
+    border-color: var(--g-text-color);
+    color: var(--g-text-color);
+    transition: color, var(--g-time);
+}
+
+.g_circle {
+    fill: var(--g-text-color);
+    transition: color, var(--g-time);
+}
+
+.g_char {
+    fill: var(--g-back-color);
+    transition: color, var(--g-time);
+}
+
+.google:hover {
+    --g-text-color: #eeeeee;
+    --g-back-color: #DC4E41;
+    background-color: var(--g-back-color);
+    border-color: var(--g-text-color);
+}
