@@ -51,7 +51,7 @@ public class HttpCookieOAuth2AuthorizationRequestRepository implements Authoriza
     }
 
     public static void deleteCookies(HttpServletRequest request, HttpServletResponse response) {
-        CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE_NAME);
+        CookieUtils.removeCookie(request, response, AUTHORIZATION_REQUEST_COOKIE_NAME, "/");
     }
 
     private String serialize(OAuth2AuthorizationRequest authorizationRequest) {

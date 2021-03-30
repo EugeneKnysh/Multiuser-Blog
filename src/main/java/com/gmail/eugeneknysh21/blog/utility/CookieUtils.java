@@ -19,11 +19,12 @@ public class CookieUtils {
         return result;
     }
 
-    public static void removeCookie(HttpServletRequest request, HttpServletResponse response, String name) {
+    public static void removeCookie(HttpServletRequest request, HttpServletResponse response, String name, String path) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length > 0) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(name)) {
+                    cookie.setPath(path);
                     cookie.setValue("");
                     cookie.setMaxAge(0);
                     response.addCookie(cookie);
