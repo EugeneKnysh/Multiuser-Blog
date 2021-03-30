@@ -2,6 +2,7 @@ package com.gmail.eugeneknysh21.blog.providers.impl;
 
 import com.gmail.eugeneknysh21.blog.exceptions.JwtAuthenticationException;
 import com.gmail.eugeneknysh21.blog.providers.JwtTokenProvider;
+import com.gmail.eugeneknysh21.blog.utility.CookieUtils;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 
@@ -75,15 +77,11 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
     }
 
     @Override
-    public String resolveAccessToken(Cookie[] cookies) {
+    public String resolveAccessToken(HttpServletRequest request) {
         String token = null;
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("access_token")) {
-                    token = cookie.getValue();
-                    break;
-                }
-            }
+        Cookie cookie = CookieUtils.getCookie(request, "access_token").orElse(null);
+        if (cookie != null) {
+            token = cookie.getValue();
         }
         return token;
     }
