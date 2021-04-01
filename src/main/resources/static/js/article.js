@@ -1,5 +1,6 @@
 import {getTime, getDate} from "./parseDate.js";
 import {showPage} from "./loader.js";
+import {getColor} from "./load-articles.js";
 
 $(document).ready(function () {
     Promise.allSettled([
@@ -26,6 +27,7 @@ function loadArticle() {
                 $("#meta").html(`${getDate(article.createdDate)} ${getTime(article.createdDate)} by <a href="/author?id=${article.author.id}">${article.author.alias}</a>`);
                 $("#views").text(article.views);
                 $("#text").html(article.fullText);
+                $("#section").text(article.section).css("color", getColor(article.section));
             }
         },
         error: function (jqXHR) {
