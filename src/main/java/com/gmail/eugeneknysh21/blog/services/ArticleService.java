@@ -25,4 +25,6 @@ public interface ArticleService {
     boolean remove(Long id);
 
     String incViewsById(Long id, String uuid);
+
+    PageDTO<ArticleDTO> searchArticle(Integer page, Integer size, Sort.Direction direction, String sortField, String searchText);
 }

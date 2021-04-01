@@ -74,4 +74,9 @@ public class PageController {
     public String author() {
         return "authors-articles";
     }
+
+    @GetMapping("/search")
+    public String search() {
+        return "search";
+    }
 }

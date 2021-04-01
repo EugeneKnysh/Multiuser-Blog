@@ -146,4 +146,10 @@ public class ArticleServiceImpl implements ArticleService {
         articleRepository.save(article);
         return uuid;
     }
+
+    @Override
+    public PageDTO<ArticleDTO> searchArticle(Integer page, Integer size, Sort.Direction direction, String sortField, String searchText) {
+        Page<Article> articlePage = articleRepository.findArticlesByLike(PageableCreator.getPageable(page, size, direction, sortField), searchText);
+        return PageDTO.convertToPageDto(articlePage, this::getArticleDTO);
+    }
 }

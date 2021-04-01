@@ -9,6 +9,7 @@ function loadHeader() {
             console.log(jqXHR.status);
         }
     }).then(function () {
+        searchInputHeader();
         return $.ajax({
             url: "/isAnonymous",
             dataType: "json",
@@ -159,5 +160,83 @@ function createPageButton(currentPage, maxPage, url) {
             newUrl.searchParams.set('p', value);
         }
         return newUrl;
+    }
+}
+
+function searchInputHeader() {
+    let button = $("#search_button_header");
+    let searchInput = $("#search_input_header");
+    eventSearchToggle(button, searchInput);
+
+    button.click(function (e) {
+        e.preventDefault();
+        search(searchInput);
+    });
+
+    searchInput.keyup(function (event) {
+        if (event.keyCode === 13) {
+            search(searchInput);
+        }
+    });
+}
+
+function notBlank(element) {
+    let searchText = element.val().trim();
+    return searchText && searchText.length !== 0;
+}
+
+function search(element) {
+    if (notBlank(element)) {
+        document.location.href="/search?q=" + encodeURI(element.val().trim());
+    }
+}
+
+function eventSearchToggle(button, searchInput) {
+    let isShow = false;
+    let isFocus = false;
+    let isActive = false;
+
+    button.mouseenter(function () {
+        isActive = true;
+        myShow();
+    });
+
+    button.mouseleave(function () {
+        isActive = false;
+        setTimeout(myHide, 1000);
+    });
+
+    searchInput.mouseenter(function () {
+        isActive = true;
+    });
+
+    searchInput.mouseleave(function () {
+        isActive = false;
+        setTimeout(myHide, 1000);
+    });
+
+    searchInput.focus(function () {
+        isFocus = true;
+    });
+
+    searchInput.blur(function () {
+        isFocus = false;
+        setTimeout(myHide, 200);
+    });
+
+    function myShow() {
+        if (!isShow) {
+            searchInput.show(250);
+            isShow = true;
+        }
+    }
+
+    function myHide() {
+        if (!notBlank(searchInput)) {
+            if (!isActive && !isFocus && isShow) {
+                searchInput.hide(250);
+                isShow = false;
+            }
+        }
     }
 }

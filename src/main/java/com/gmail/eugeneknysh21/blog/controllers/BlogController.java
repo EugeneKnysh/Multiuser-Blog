@@ -73,6 +73,15 @@ public class BlogController {
         return articleService.getAllBySection(page, size, direction, sortField, section);
     }
 
+    @GetMapping("/article/search")
+    public PageDTO<ArticleDTO> searchArticle(@RequestParam(required = false) Integer page,
+                                             @RequestParam(required = false) Integer size,
+                                             @RequestParam(required = false) Sort.Direction direction,
+                                             @RequestParam String sortField,
+                                             @RequestParam String searchText) {
+        return articleService.searchArticle(page, size, direction, sortField, searchText);
+    }
+
     @DeleteMapping("/article")
     @PreAuthorize("hasAuthority('OP_CREATE')")
     public boolean deleteArticle(@RequestParam Long id) {

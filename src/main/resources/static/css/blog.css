@@ -604,3 +604,14 @@ h1, h2, h3, h4, h5, h6 {
     background-color: var(--g-back-color);
     border-color: var(--g-text-color);
 }
+
+/*Search in header*/
+#search_button_header {
+    margin: 0 15px 0 10px;
+    width: 30px;
+}
+
+#search_input_header {
+    display: none;
+    width: 66%;
+}
