@@ -38,6 +38,7 @@ $(document).ready(function () {
             })
     ]).then(function () {
         showPage();
+        $("#search_input").val(searchText);
     });
 });
 
