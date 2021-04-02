@@ -1,5 +1,5 @@
 import handleError from "./errorHandler.js";
-import {clickCheckboxAgree, validName, validLastName, validAlias, validEmail, validPassword, confirmPassword, viewPassword} from "./validation.js";
+import {validName, validLastName, validAlias, validEmail, validPassword, confirmPassword, viewPassword} from "./validation.js";
 import {showPage} from "./loader.js";
 
 $(document).ready(function () {
