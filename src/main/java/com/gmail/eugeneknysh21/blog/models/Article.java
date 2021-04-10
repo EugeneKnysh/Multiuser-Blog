@@ -23,6 +23,8 @@ public class Article {
     private String title;
     private String section;
     private String anons;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String fullText;
 
     @Column(nullable = false, updatable = false)
