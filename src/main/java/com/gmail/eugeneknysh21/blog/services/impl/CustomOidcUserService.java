@@ -20,7 +20,7 @@ public class CustomOidcUserService extends OidcUserService {
         OidcUser oidcUser = super.loadUser(userRequest);
 
         return new OAuth2UserPrincipal(
-                oAuth2UserService.buildUserDTO(oidcUser, userRequest),
+                oAuth2UserService.buildUser(oidcUser, userRequest),
                 oidcUser.getName(),
                 oidcUser.getAttributes(),
                 oidcUser.getClaims(),
